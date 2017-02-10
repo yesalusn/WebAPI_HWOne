@@ -1,0 +1,53 @@
+{
+	"owner": "1531044",
+	"lastUpdatedBy": "1531044",
+	"lastRevision": 1033675477,
+	"team": null,
+	"id": "78d37dd2-7d98-82d6-dd75-0f2e2a8c9640",
+	"name": "HW1",
+	"description": "",
+	"order": [
+		"96c175fe-07d0-136f-a261-a7e75cdb7386",
+		"8b571533-e279-b2ae-fd76-97cec3b2bdc8"
+	],
+	"requests": [
+		{
+			"folder": null,
+			"id": "8b571533-e279-b2ae-fd76-97cec3b2bdc8",
+			"name": "https://www.googleapis.com/books/v1/volumes/{{Book_ID}}",
+			"dataMode": "params",
+			"data": null,
+			"rawModeData": null,
+			"descriptionFormat": "html",
+			"description": "",
+			"headers": "",
+			"method": "GET",
+			"pathVariables": {},
+			"url": "https://www.googleapis.com/books/v1/volumes/{{Book_ID}}",
+			"preRequestScript": null,
+			"tests": "var book = JSON.parse(responseBody);\nvar idFound = false;\nvar id = book.book_id;\n\nif(book.id == environment.Book_ID)\n{\n    idFound = true;\n}\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"ID is found\"] = idFound;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"collectionId": "78d37dd2-7d98-82d6-dd75-0f2e2a8c9640"
+		},
+		{
+			"folder": null,
+			"id": "96c175fe-07d0-136f-a261-a7e75cdb7386",
+			"name": "Get Turing books",
+			"dataMode": "params",
+			"data": null,
+			"rawModeData": null,
+			"descriptionFormat": null,
+			"description": "Find and test for books that have \"Turing\" in the title",
+			"headers": "",
+			"method": "GET",
+			"pathVariables": {},
+			"url": "https://www.googleapis.com/books/v1/volumes?q={{book_title}}",
+			"preRequestScript": "",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar allBooksTuring = true;\nif (responseCode.code === 200)\n {\n     for(var i = 0; i > jsonData.length; ++i)\n     {\n         var pattern = /turing/i;\n         if (!pattern.match(jsonData.item[i].volumeInfo.title))\n         { \n             allBooksTuring = false;\n                break;\n         }\n    }\n }\n\ntests[\"Book titles are Turing\"] = allBooksTuring;\ntests[\"Status code is 200\"] = responseCode.code === 200;\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"collectionId": "78d37dd2-7d98-82d6-dd75-0f2e2a8c9640"
+		}
+	]
+}
